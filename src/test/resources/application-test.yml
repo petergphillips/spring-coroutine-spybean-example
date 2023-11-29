@@ -1,0 +1,15 @@
+spring:
+  flyway:
+    url: jdbc:postgresql://localhost:5432/mapping?sslmode=prefer
+    user: mapping
+    password: mapping
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/mapping
+    username: mapping
+    password: mapping
+    properties:
+      sslMode: DISABLE
+      sslRootCert:
+    pool:
+      max-idle-time: 5ms
