@@ -1,6 +1,6 @@
 # Spring Boot coroutine with spybean example
 
-Example project demonstrating https://github.com/springdoc/springdoc-openapi/issues/
+Example project demonstrating https://github.com/spring-projects/spring-framework/issues/31713
 
 Sample controller can be found at [ExampleResource](https://github.com/petergphillips/spring-coroutine-spybean-example/blob/main/src/main/kotlin/uk/co/greenthistle/coroutinespybeanexample/ExampleResource.kt)
 
