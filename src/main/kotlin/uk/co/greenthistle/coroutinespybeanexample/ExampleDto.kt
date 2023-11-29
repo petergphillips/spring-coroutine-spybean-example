@@ -13,4 +13,6 @@ data class ExampleDto(
   val label: String? = null,
 
   val mappingType: String,
-)
+) {
+  constructor(visit: VisitId) : this(visit.nomisId, visit.vsipId, visit.label, visit.mappingType.name)
+}
