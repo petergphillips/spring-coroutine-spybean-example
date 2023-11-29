@@ -28,9 +28,8 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
 
   implementation("org.flywaydb:flyway-core")
-  runtimeOnly("org.postgresql:r2dbc-postgresql:1.0.2.RELEASE")
+  implementation("io.r2dbc:r2dbc-h2:1.0.0.RELEASE")
   runtimeOnly("org.springframework.boot:spring-boot-starter-jdbc")
-  runtimeOnly("org.postgresql:postgresql:42.7.0")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")

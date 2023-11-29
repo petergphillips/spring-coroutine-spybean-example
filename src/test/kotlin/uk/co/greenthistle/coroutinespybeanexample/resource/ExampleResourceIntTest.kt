@@ -9,10 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
-import uk.co.greenthistle.coroutinespybeanexample.jpa.repository.ExampleRepository
-
-private const val nomisId = 1234L
-private const val vsipId = "12345678"
+import uk.co.greenthistle.coroutinespybeanexample.ExampleRepository
 
 @AutoConfigureWebTestClient(timeout = "PT60M")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -21,7 +18,8 @@ class ExampleResourceIntTest {
   @Autowired
   lateinit var webTestClient: WebTestClient
 
-  @SpyBean(name = "visitIdRepository")
+  // comment out spybean here to get test to pass
+  @SpyBean
   lateinit var exampleRepository: ExampleRepository
 
   @Test
@@ -31,8 +29,8 @@ class ExampleResourceIntTest {
       .body(
         BodyInserters.fromValue(
           """{
-            "nomisId"     : $nomisId,
-            "vsipId"      : "$vsipId",
+            "nomisId"     : 1234,
+            "vsipId"      : "12345678",
             "label"       : "2022-01-01",
             "mappingType" : "ONLINE"
           }""",

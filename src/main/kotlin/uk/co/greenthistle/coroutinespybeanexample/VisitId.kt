@@ -1,4 +1,4 @@
-package uk.co.greenthistle.coroutinespybeanexample.jpa
+package uk.co.greenthistle.coroutinespybeanexample
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.annotation.Id
@@ -22,8 +22,6 @@ data class VisitId(
   @Transient
   @Value("false")
   val new: Boolean = true,
-
-  val whenCreated: LocalDateTime? = null,
 
   ) : Persistable<Long> {
 
