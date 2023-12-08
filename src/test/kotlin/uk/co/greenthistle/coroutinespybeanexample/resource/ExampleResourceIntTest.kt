@@ -2,15 +2,19 @@ package uk.co.greenthistle.coroutinespybeanexample.resource
 
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.AdditionalAnswers
+import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.check
+import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
+import org.mockito.kotlin.spy
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.SpyBean
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -19,6 +23,7 @@ import uk.co.greenthistle.coroutinespybeanexample.ExampleDto
 import uk.co.greenthistle.coroutinespybeanexample.ExampleRepository
 import uk.co.greenthistle.coroutinespybeanexample.MappingType
 import uk.co.greenthistle.coroutinespybeanexample.VisitId
+import uk.co.greenthistle.coroutinespybeanexample.ExampleService
 
 @AutoConfigureWebTestClient(timeout = "PT60M")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,8 +33,19 @@ class ExampleResourceIntTest {
   lateinit var webTestClient: WebTestClient
 
   // comment out spybean here to get test to pass
-  @SpyBean
+  @Autowired
   lateinit var exampleRepository: ExampleRepository
+
+  @Autowired
+  lateinit var exampleService: ExampleService
+
+  lateinit var repositorySpy: ExampleRepository
+
+  @BeforeEach
+  fun setup() {
+    repositorySpy = mock(defaultAnswer = AdditionalAnswers.delegatesTo(exampleRepository))
+    exampleService.exampleRepository = repositorySpy
+  }
 
   @Test
   fun `create mapping success`() {
@@ -50,7 +66,7 @@ class ExampleResourceIntTest {
 
     runBlocking {
       // This shows that we can spy on the bean
-      verify(exampleRepository).save(
+      verify(repositorySpy).save(
         check {
           assertThat(it.nomisId).isEqualTo(1234)
         }
@@ -62,7 +78,7 @@ class ExampleResourceIntTest {
   fun `get mapping success`() {
     runBlocking {
       // and also mock results that aren't in the database
-      whenever(exampleRepository.findById(any())) .thenReturn(VisitId(
+      whenever(repositorySpy.findById(any())) .thenReturn(VisitId(
         nomisId = 2345,
         vsipId = "ABCD",
         label = "2022-01-01",

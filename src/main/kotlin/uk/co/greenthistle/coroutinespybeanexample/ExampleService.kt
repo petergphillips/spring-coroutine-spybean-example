@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import java.lang.RuntimeException
 
 @Service
-class ExampleService(val exampleRepository: ExampleRepository) {
+class ExampleService(var exampleRepository: ExampleRepository) {
   suspend fun createVisitMapping(request: ExampleDto) =
     with(request) {
       exampleRepository.save(VisitId(nomisId, vsipId, label, MappingType.valueOf(mappingType)))
